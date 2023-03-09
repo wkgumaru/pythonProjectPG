@@ -15,9 +15,9 @@ def establish_postgres_connection():
     engine = create_engine("postgresql+psycopg2://ugrebibjthdozz:1edde6187d75c2c50b4ef0476f58b33cbfeb70f41da88014897a86439432e357@ec2-52-70-67-123.compute-1.amazonaws.com/ddoa83tf33ujai")
     return engine
 
-def establish_snowflake_connection():
+def establish_snowflake_connection(username,userPassword,userAccount,userDB,userSchema):
     '''uses Snowflake Python Connector to establish connection to snowflake, returns connection and connection string'''
-    snowflake_connection = snowflake.connector.connect(
+    '''snowflake_connection = snowflake.connector.connect(
         user='wgumaru',
         password='Jesus4Wcg',
         account='yoa32090',
@@ -25,6 +25,16 @@ def establish_snowflake_connection():
         schema= 'STG_PSAS'
     )
     connection_string = f'snowflake://{"wgumaru"}:{"Jesus4Wcg"}@{"yoa32090.snowflakecomputing.com"}/?account={"yoa32090"}'
+    return snowflake_connection, connection_string
+    '''
+    snowflake_connection = snowflake.connector.connect(
+        user=username,
+        password=userPassword,
+        account=userAccount,
+        database=userDB,
+        schema=userSchema
+    )
+    connection_string = f'snowflake://{username}:{userPassword}@{userAccount+".snowflakecomputing.com"}/?account={userAccount}'
     return snowflake_connection, connection_string
 
 path = "\\"
@@ -44,12 +54,8 @@ query = "COPY (SELECT * FROM ASSESSMENTS_DOCTOR) TO STDOUT WITH CSV DELIMITER ',
 cur = conn.cursor()
 with open("C:\\tmp\\transactions.csv","w") as file:
     cur.copy_expert(query,file)
-#print(query)
-#establish_snowflake_connection()
-#print("hello")
-
-
-conn = getConnectiom()
-createFile(conn,tableName)
-
-export()
+print(query)
+print(establish_snowflake_connection('wgumaru','Jesus4Wcg','yoa32090','DEV','STG_PSAS'))
+#conn = getConnection()
+#createFile(conn,tableName)
+#export()
