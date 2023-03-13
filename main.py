@@ -52,7 +52,7 @@ query = "COPY (SELECT * FROM ASSESSMENTS_DOCTOR) TO '{staging_file}' WITH DELIMI
 query = "COPY (SELECT * FROM ASSESSMENTS_DOCTOR) TO STDOUT WITH CSV DELIMITER ','"
 
 cur = conn.cursor()
-with open("C:\\tmp\\transactions.csv","w") as file:
+with open("C:\\tmp\\transactions.csv","w") as file: #make a transactions csv
     cur.copy_expert(query,file)
 print(query)
 print(establish_snowflake_connection('wgumaru','Jesus4Wcg','yoa32090','DEV','STG_PSAS'))
